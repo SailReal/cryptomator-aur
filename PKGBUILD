@@ -13,8 +13,8 @@ license=('GPL3')
 depends=('fuse2' 'java-environment=17' 'alsa-lib' 'hicolor-icon-theme' 'libxtst' 'libnet' 'libxrender')
 makedepends=('maven')
 optdepends=('keepassxc-cryptomator: Use KeePassXC to store vault passwords')
-source=("cryptomator-${pkgver}.tar.gz::https://github.com/cryptomator/cryptomator/archive/refs/tags/${pkgver}.tar.gz"
-        "cryptomator-${pkgver}.tar.gz.asc::https://github.com/cryptomator/cryptomator/releases/download/${pkgver}/cryptomator-${pkgver}.tar.gz.asc"
+source=("cryptomator-${pkgver}-rc2.tar.gz::https://github.com/cryptomator/cryptomator/archive/refs/tags/${pkgver}-rc2.tar.gz"
+        "cryptomator-${pkgver}-rc2.tar.gz.asc::https://github.com/cryptomator/cryptomator/releases/download/${pkgver}-rc2/cryptomator-${pkgver}-rc2.tar.gz.asc"
         'org.cryptomator.Cryptomator.desktop'
         'org.cryptomator.Cryptomator.png'
         'org.cryptomator.Cryptomator.svg'
@@ -40,7 +40,7 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/cryptomator-${pkgver}"
+  cd "${srcdir}/cryptomator-${pkgver}-rc2"
   mvn -B clean package -DskipTests -Plinux
 
   cp LICENSE.txt target
@@ -77,8 +77,8 @@ build() {
     --java-options "-Dcryptomator.ipcSocketPath=\"~/.config/Cryptomator/ipc.socket\"" \
     --java-options "-Dcryptomator.mountPointsDir=\"~/.local/share/Cryptomator/mnt\"" \
     --java-options "-Dcryptomator.showTrayIcon=false" \
-    --java-options "-Dcryptomator.buildNumber=\"aur-${pkgver}\"" \
-    --app-version "${pkgver}" \
+    --java-options "-Dcryptomator.buildNumber=\"aur-${pkgver}-rc2\"" \
+    --app-version "${pkgver}-rc2" \
     --verbose
 }
 
@@ -90,7 +90,7 @@ package() {
   install -Dm644 "${srcdir}/org.cryptomator.Cryptomator.svg" "${pkgdir}/usr/share/icons/hicolor/512x512/apps/org.cryptomator.Cryptomator.DirIcon"
 
   mkdir -p "${pkgdir}/opt/cryptomator/"
-  cp -R "${srcdir}/cryptomator-${pkgver}/target/cryptomator" ${pkgdir}/opt/
+  cp -R "${srcdir}/cryptomator-${pkgver}-rc2/target/cryptomator" ${pkgdir}/opt/
 
   mkdir -p "${pkgdir}/usr/bin"
   ln -s "/opt/cryptomator/bin/cryptomator" "${pkgdir}/usr/bin/cryptomator"
